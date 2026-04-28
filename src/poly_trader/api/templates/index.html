@@ -316,6 +316,48 @@
                 </div>
             </div>
         </div>
+
+        <div class="summary-card">
+            <div class="summary-header">Recent Trades (Live Tracking)</div>
+            <div style="overflow-x: auto; margin-top: 1rem;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                    <thead>
+                        <tr style="text-align: left; border-bottom: 2px solid var(--border-color);">
+                            <th style="padding: 0.75rem;">Time</th>
+                            <th style="padding: 0.75rem;">Market</th>
+                            <th style="padding: 0.75rem;">Side</th>
+                            <th style="padding: 0.75rem;">Price</th>
+                            <th style="padding: 0.75rem;">Size</th>
+                            <th style="padding: 0.75rem;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trade in trades %}
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 0.75rem;">{{ trade.timestamp.strftime('%H:%M:%S') }}</td>
+                            <td style="padding: 0.75rem;">{{ trade.question }}</td>
+                            <td style="padding: 0.75rem;">
+                                <span style="padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem; background-color: {% if trade.side == 'BUY' %}#ebf8ff; color: #2b6cb0{% else %}#fff5f5; color: #c53030{% endif %}">
+                                    {{ trade.side }}
+                                </span>
+                            </td>
+                            <td style="padding: 0.75rem;">${{ trade.price }}</td>
+                            <td style="padding: 0.75rem;">{{ trade.size }}</td>
+                            <td style="padding: 0.75rem;">
+                                <span style="padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600; font-size: 0.8rem; background-color: {% if trade.status == 'FILLED' %}#f0fff4; color: #2f855a{% elif trade.status == 'FAILED' %}#fff5f5; color: #c53030{% else %}#fffaf0; color: #9c4221{% endif %}">
+                                    {{ trade.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-muted);">No trades recorded yet. Start trading to see history!</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         
         <footer>
             <p>© {{ current_year }} PollyPicks • AI-Powered Prediction Market Analysis</p>

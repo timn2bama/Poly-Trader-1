@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from fetch_polymarket_data import fetch_polymarket_data
+from poly_trader.data.fetcher import fetch_polymarket_data
 import datetime
 
 def generate_html():

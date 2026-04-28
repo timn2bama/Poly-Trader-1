@@ -3,9 +3,9 @@ from pydantic import ValidationError
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
-from models import MarketData
+from poly_trader.models import MarketData
 
 def test_market_data_valid():
     data = {

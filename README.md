@@ -38,10 +38,10 @@ cp .env.example .env
 
 5. Run the application
 ```bash
-python app.py
+python run.py
 ```
 
-6. Visit http://127.0.0.1:5000 in your browser
+6. Visit http://127.0.0.1:5001 in your browser (default port)
 
 ## 📋 Features
 
@@ -49,27 +49,26 @@ python app.py
 * **AI-Powered Predictions:** Uses ChatGPT to analyze various events
 * **Edge Detection:** Compares AI predictions with market consensus to find inefficiencies
 * **Intelligent Bet Sizing:** Implements Kelly Criterion for optimal bankroll management
-* **Automated Execution:** Places trades via Polymarket Agents SDK
+* **Automated Execution:** Places trades via Polymarket CLOB API
 * **Risk Management:** Includes safety features to protect your bankroll
 
 ## 🏗️ Architecture
 
-The system consists of three core modules:
+The system is organized into a modular package structure under `src/poly_trader`:
 
-1. **Analysis Module**  
-   * Uses ChatGPT to analyze upcoming events  
-   * Compares predictions with current Polymarket odds  
-   * Identifies opportunities with significant edge
+1. **API Module (`poly_trader.api`)**  
+   * Flask web interface for monitoring and manual control
+   * REST endpoints for market data
 
-2. **Decision Module**  
-   * Evaluates opportunities based on edge percentage  
-   * Calculates optimal bet size using Kelly Criterion  
-   * Manages risk to preserve bankroll
+2. **Core Module (`poly_trader.core`)**  
+   * `betting.py`: Automated bet execution and transaction signing
+   * `report_generator.py`: Generates static performance reports
 
-3. **Execution Module**  
-   * Connects to Polymarket using their official Agents SDK  
-   * Places trades automatically with verification  
-   * Implements safety measures and error handling
+3. **Data Module (`poly_trader.data`)**  
+   * `fetcher.py`: Retrieves market data from Polymarket and external sources
+
+4. **Utility Scripts (`scripts/`)**
+   * Collection of experimental and one-off utility scripts for market analysis
 
 ## ⚙️ Configuration
 
@@ -81,6 +80,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 # Flask app settings
 FLASK_SECRET_KEY=your_flask_secret_key_here
+FLASK_PORT=5001
 
 # SerpAPI key (required for market data)
 SERPAPI_API_KEY=your_serpapi_api_key_here
@@ -104,29 +104,30 @@ MIN_EDGE_PERCENTAGE=0.15
 
 Start the web interface:
 ```bash
-python app.py
+python run.py
 ```
 
-Run in simulation mode (no real trades):
+Run tests:
 ```bash
-python app.py --simulation
+python -m pytest
 ```
 
-Analyze specific markets:
+Generate a top picks report:
 ```bash
-python polymarket_ai_search.py --query "NBA games tonight"
+python -m poly_trader.core.report_generator
 ```
 
 ## ⚠️ Risk Warning
 
 Trading involves substantial risk and is not suitable for all investors. Past performance is not indicative of future results. Start with small amounts to test the system before scaling up. Implement proper risk management.
 
-## 🔍 Main Files
+## 🔍 Package Structure
 
-* `app.py` - Main entry point for the Flask application
-* `polymarket_ai_search.py` - Search and analysis of Polymarket events
-* `place_polymarket_bet.py` - Automated bet execution
-* `fetch_current_markets.py` - Real-time market data retrieval
+* `src/poly_trader/api/app.py` - Main entry point for the Flask application
+* `src/poly_trader/core/betting.py` - Automated bet execution
+* `src/poly_trader/data/fetcher.py` - Real-time market data retrieval
+* `src/poly_trader/models.py` - Pydantic data models
+* `src/poly_trader/config.py` - Configuration management
 
 ## 📝 License
 
@@ -139,7 +140,7 @@ Siraj Raval
 ## 🙏 Acknowledgements
 
 * OpenAI for ChatGPT API
-* Polymarket team for the Agents SDK
+* Polymarket team for the CLOB API
 * All contributors and testers
 
 ---

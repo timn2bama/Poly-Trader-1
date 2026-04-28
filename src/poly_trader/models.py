@@ -14,6 +14,7 @@ class MarketData(BaseModel):
     bet_amount: str
     expected_profit: str
     confidence: str
+    reasoning: Optional[str] = Field(default="Analysis pending...")
     icon: str
     
     @field_validator('yes_odds', 'no_odds')
