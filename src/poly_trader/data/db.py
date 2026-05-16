@@ -1,6 +1,6 @@
 import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, Boolean
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
@@ -33,7 +33,13 @@ class Trade(Base):
 
 # Database setup
 DB_PATH = "poly_trader.db"
-engine = create_engine(f"sqlite:///{DB_PATH}")
+engine = create_engine(
+    f"sqlite:///{DB_PATH}",
+    connect_args={
+        "timeout": 30,        # wait up to 30s for lock instead of failing immediately
+        "check_same_thread": False,
+    }
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():

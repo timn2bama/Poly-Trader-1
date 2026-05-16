@@ -4,10 +4,10 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # Flask settings
-    flask_secret_key: SecretStr = Field(default=SecretStr("default-dev-key"))
+    flask_secret_key: SecretStr = Field(...)  # Required — set FLASK_SECRET_KEY in .env
     flask_port: int = 5001
     environment: str = "development"
-    flask_debug: bool = True
+    flask_debug: bool = Field(default=False)  # Set FLASK_DEBUG=true only in development
     
     # APIs
     openai_api_key: Optional[SecretStr] = None
