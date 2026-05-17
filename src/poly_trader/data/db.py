@@ -31,12 +31,15 @@ class Trade(Base):
     def __repr__(self):
         return f"<Trade(bet_id='{self.bet_id}', question='{self.question[:30]}...', side='{self.side}', status='{self.status}')>"
 
-# Database setup
-DB_PATH = "poly_trader.db"
+# Database setup — DATA_DIR lets Railway mount a persistent volume
+_data_dir = os.environ.get("DATA_DIR", ".")
+DB_PATH = os.path.join(_data_dir, "poly_trader.db")
+os.makedirs(_data_dir, exist_ok=True)
+
 engine = create_engine(
     f"sqlite:///{DB_PATH}",
     connect_args={
-        "timeout": 30,        # wait up to 30s for lock instead of failing immediately
+        "timeout": 30,
         "check_same_thread": False,
     }
 )

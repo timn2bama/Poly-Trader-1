@@ -11,10 +11,8 @@ if __name__ == "__main__":
     debug_mode = settings.flask_debug
     if settings.is_production() and debug_mode:
         debug_mode = False
-        
-    print(f"Starting PolyTrader via run.py on port {settings.flask_port}...")
-    app.run(
-        debug=debug_mode, 
-        port=settings.flask_port,
-        host="127.0.0.1" if debug_mode else "0.0.0.0"
-    )
+
+    # Railway injects PORT; fall back to config for local dev
+    port = int(os.environ.get("PORT", settings.flask_port))
+    print(f"Starting PolyTrader via run.py on port {port}...")
+    app.run(debug=debug_mode, port=port, host="0.0.0.0")

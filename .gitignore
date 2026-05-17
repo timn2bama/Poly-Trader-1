@@ -33,5 +33,15 @@ ENV/
 *.swp
 *.swo
 
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Logs & output
+*.log
+*.csv
+*.html
+
 # macOS
-.DS_Store 
+.DS_Store
